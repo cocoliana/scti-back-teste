@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { signupClient } from "../controllers/clientController.js";
+import { getAllParticipants, signupClient } from "../controllers/clientController.js";
 import { clientValidation } from "../middlewares/clientMiddleware.js";
 
 const clientRouter = Router()
 
-clientRouter.post("/signup", clientValidation, signupClient)
+clientRouter.post("/signuser", clientValidation, signupClient)
 clientRouter.get("/clients/:id/orders")
+clientRouter.get("/getAll", getAllParticipants)
+clientRouter.put("/liberar/user")
 
 export default clientRouter
