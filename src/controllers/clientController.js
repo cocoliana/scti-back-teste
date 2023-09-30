@@ -1,6 +1,8 @@
 import db from "../db.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
+
 
 export async function signupClient(req, res) {
   const participant = req.body;
@@ -70,12 +72,15 @@ export async function denyPayment(req, res) {
 }
 
 export async function getUserById(req, res) {
-  const participant = req.body;
+  const userId = req.params.idUser;
+  console.log(userId)
   try {
     const participantInfo = await db.query(
-      `SELECT * FROM participants WHERE id = $1`, [participant.id]
+      `SELECT * FROM participants WHERE email = $1`, [userId]
     )
-    res.send(participantInfo).status(200);
+    console.log("user", userId)
+    console.log(participantInfo.rows)
+    res.send(participantInfo.rows).status(200);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -86,6 +91,8 @@ export async function getUserById(req, res) {
 export async function login(req, res) {
   const participant = req.body
   const email = participant.email
+  const secretKey = process.env.JWT_SECRET;
+  const token = jwt.sign(participant, secretKey)
   try {
     const verifyUser = await db.query(
       `SELECT * FROM participants WHERE email = $1`, [email]
@@ -101,16 +108,46 @@ export async function login(req, res) {
       return res.status(401).send("problema com pagamento")
     }
 
-    res.status(200).send(verifyUser.rows)
+    res.status(200).send(token)
 
 
 
-  } catch (err) {
-    return console.log(err)
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+
   }
 
 }
 
 export async function logout(req, res) {
+
+}
+
+export async function trocarSenha(req, res) {
+  const { email } = req.body
+  const { newPass } = req.body
+  const secretKey = process.env.JWT_SECRET;
+
+  const passwordHash = bcrypt.hashSync(newPass, 10);
+  try {
+    const user = await db.query(`
+      SELECT * FROM participants WHERE email= $1
+    `, [email])
+
+    console.log(req.body)
+
+    if (user.rowCount === 0) {
+      return res.status(404).send("email não cadastrado")
+    }
+
+    await db.query(`
+      UPDATE participants SET password = $1 WHERE email = $2 
+    `, [passwordHash, email])
+    res.status(201).send("Senha Alterada")
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500)
+  }
 
 }
