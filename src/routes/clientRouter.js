@@ -5,7 +5,7 @@ import { tokenValidator } from "../middlewares/tokenValidator.js";
 
 const clientRouter = Router()
 
-clientRouter.post("/signup", signupClient)
+clientRouter.post("/signup", clientValidation, signupClient)
 clientRouter.post("/login", login)
 clientRouter.get("/user-all", getAllParticipants)
 clientRouter.put("/user-release-access", confirmPayment)
