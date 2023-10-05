@@ -91,7 +91,7 @@ export async function getUserById(req, res) {
 export async function login(req, res) {
   const participant = req.body
   const email = participant.email
-  const secretKey = process.env.JWT_SECRET;
+  const secretKey = "juju54321";
   const token = jwt.sign(participant, secretKey)
   try {
     const verifyUser = await db.query(
