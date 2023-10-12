@@ -100,7 +100,7 @@ export async function setMonday(req, res) {
     const user = req.body;
     let mondayId = parseInt(user.id);
     const { isBool } = req.body;
-    const idNullability = user.idMondayNullability
+    const idNullability = user.idNullability
     const { email } = res.locals.user
     console.log("aqui b", user)
 
@@ -202,7 +202,7 @@ export async function setTerca(req, res) {
     const user = req.body;
     let tercaId = parseInt(user.id);
     const { isBool } = req.body;
-    const idNullability = user.idTercaNullability
+    const idNullability = user.idNullability
     const { email } = res.locals.user
     console.log("aqui b", user)
 
@@ -307,7 +307,7 @@ export async function setQuarta(req, res) {
     const user = req.body;
     let quartaId = parseInt(user.id);
     const { isBool } = req.body;
-    const idNullability = user.idQuartaNullability
+    const idNullability = user.idNullability
     const { email } = res.locals.user
     console.log("aqui b", user)
 
@@ -409,7 +409,7 @@ export async function setQuinta(req, res) {
     const user = req.body;
     let quintaId = parseInt(user.id);
     const { isBool } = req.body;
-    const idNullability = user.idQuintaNullability
+    const idNullability = user.idNullability
     const { email } = res.locals.user
     console.log("aqui b", user)
 
@@ -511,7 +511,7 @@ export async function setSexta(req, res) {
     const user = req.body;
     let sextaId = parseInt(user.id);
     const { isBool } = req.body;
-    const idNullability = user.idSextaNullability
+    const idNullability = user.idNullability
     const { email } = res.locals.user
     console.log("aqui b", user)
 
