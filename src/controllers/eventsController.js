@@ -67,7 +67,7 @@ export async function getMyEventsMonday(req, res) {
 
     try {
         const mondayEvents = await db.query(`
-        SELECT * FROM monday WHERE id = $1 ;
+        SELECT course, "courseTime" FROM monday WHERE id = $1 ;
         `, [idMonday])
 
         res.send(mondayEvents.rows).status(200)
@@ -102,10 +102,22 @@ export async function setMonday(req, res) {
     const { isBool } = req.body;
     const idNullability = user.idNullability
     const { email } = res.locals.user
-    console.log("aqui b", user)
+    console.log("aqui id null", idNullability)
 
     try {
-        await db.query(`UPDATE participants SET "idMonday" = $1 WHERE email = $2 `, [mondayId, email]);
+        let dayEvents = await db.query(`SELECT * FROM monday WHERE id = $1`, [mondayId])
+        console.log("evento0 ", dayEvents.rows[0])
+        if (dayEvents.rows[0].qtd === 0) {
+            return res.status(405).send("parece que esgotou, por favor escolha outra opção")
+        }
+        let participantInfo = await db.query(`SELECT * FROM participants WHERE email = $1`, [email])
+        participantInfo = participantInfo.rows[0]
+        let participantInfoMondayId = participantInfo.idMonday
+        console.log("id do monday ", participantInfoMondayId)
+        if (participantInfoMondayId !== mondayId) {
+            await db.query(`UPDATE participants SET "idMonday" = $1 WHERE email = $2 `, [mondayId, email]);
+
+        }
         //const idMonday = await db.query(` SELECT * FROM participants WHERE email= $1`, [email]) //id do minicurso que a pessoa fara
         //se for o primeiro click só decrementa, se não, decrementa em um e incrementa no outro
         if (idNullability === null) {
@@ -207,7 +219,20 @@ export async function setTerca(req, res) {
     console.log("aqui b", user)
 
     try {
-        await db.query(`UPDATE participants SET "idtuesday" = $1 WHERE email = $2 `, [tercaId, email]);
+
+        let dayEvents = await db.query(`SELECT * FROM tuesday WHERE id = $1`, [tercaId])
+        console.log("evento0 ", dayEvents.rows[0])
+        if (dayEvents.rows[0].qtd === 0) {
+            return res.status(405).send("parece que esgotou, por favor escolha outra opção")
+        }
+        let participantInfo = await db.query(`SELECT * FROM participants WHERE email = $1`, [email])
+        participantInfo = participantInfo.rows[0]
+        let participantInfoTercaId = participantInfo.idtuesday
+        console.log("id da terca ", participantInfoTercaId)
+        if (participantInfoTercaId !== tercaId) {
+            await db.query(`UPDATE participants SET "idtuesday" = $1 WHERE email = $2 `, [tercaId, email]);
+
+        }
         //const idMonday = await db.query(` SELECT * FROM participants WHERE email= $1`, [email]) //id do minicurso que a pessoa fara
         //se for o primeiro click só decrementa, se não, decrementa em um e incrementa no outro
         if (idNullability === null) {
@@ -312,7 +337,19 @@ export async function setQuarta(req, res) {
     console.log("aqui b", user)
 
     try {
-        await db.query(`UPDATE participants SET "idwednesday" = $1 WHERE email = $2 `, [quartaId, email]);
+        let dayEvents = await db.query(`SELECT * FROM wednesday WHERE id = $1`, [quartaId])
+        console.log("evento0 ", dayEvents.rows[0])
+        if (dayEvents.rows[0].qtd === 0) {
+            return res.status(405).send("parece que esgotou, por favor escolha outra opção")
+        }
+        let participantInfo = await db.query(`SELECT * FROM participants WHERE email = $1`, [email])
+        participantInfo = participantInfo.rows[0]
+        let participantInfoWedId = participantInfo.idwednesday
+        console.log("id do Wed ", participantInfoWedId)
+        if (participantInfoWedId !== quartaId) {
+            await db.query(`UPDATE participants SET "idwednesday" = $1 WHERE email = $2 `, [quartaId, email]);
+
+        }
         //const idMonday = await db.query(` SELECT * FROM participants WHERE email= $1`, [email]) //id do minicurso que a pessoa fara
         //se for o primeiro click só decrementa, se não, decrementa em um e incrementa no outro
         if (idNullability === null) {
@@ -414,14 +451,28 @@ export async function setQuinta(req, res) {
     console.log("aqui b", user)
 
     try {
-        await db.query(`UPDATE participants SET "idthursday" = $1 WHERE email = $2 `, [quintaId, email]);
+        let dayEvents = await db.query(`SELECT * FROM thursday WHERE id = $1`, [quintaId])
+        console.log("evento0 ", dayEvents.rows[0])
+        if (dayEvents.rows[0].qtd === 0) {
+            return res.status(405).send("parece que esgotou, escolha outro")
+        }
+
+        let participantInfo = await db.query(`SELECT * FROM participants WHERE email = $1`, [email])
+        participantInfo = participantInfo.rows[0]
+        let participantInfoThuId = participantInfo.idthursday
+        console.log("id do thurday ", participantInfoThuId)
+        if (participantInfoThuId !== quintaId) {
+            await db.query(`UPDATE participants SET "idthursday" = $1 WHERE email = $2 `, [quintaId, email]);
+
+        }
         //const idMonday = await db.query(` SELECT * FROM participants WHERE email= $1`, [email]) //id do minicurso que a pessoa fara
         //se for o primeiro click só decrementa, se não, decrementa em um e incrementa no outro
         if (idNullability === null) {
             console.log("eh null")
             await db.query(`UPDATE thursday SET qtd = qtd-1 WHERE id = $1`, [quintaId])
+            return
         }
-        if (idNullability !== null) {
+        else if (idNullability !== null) {
             await db.query(`UPDATE thursday SET qtd = qtd-1 WHERE id = $1`, [quintaId])
             let thursdayEvents = await db.query(`SELECT * FROM thursday WHERE id != $1 `, [quintaId])
             thursdayEvents = thursdayEvents.rows
@@ -516,7 +567,20 @@ export async function setSexta(req, res) {
     console.log("aqui b", user)
 
     try {
-        await db.query(`UPDATE participants SET "idfriday" = $1 WHERE email = $2 `, [sextaId, email]);
+        let dayEvents = await db.query(`SELECT * FROM friday WHERE id = $1`, [sextaId])
+        console.log("evento0 ", dayEvents.rows[0])
+        if (dayEvents.rows[0].qtd === 0) {
+            return res.status(405).send("parece que esgotou, escolha outro")
+        }
+
+        let participantInfo = await db.query(`SELECT * FROM participants WHERE email = $1`, [email])
+        participantInfo = participantInfo.rows[0]
+        let participantInfoFIid = participantInfo.idfriday
+        console.log("id do Friday ", participantInfoFIid)
+        if (participantInfoFIid !== sextaId) {
+            await db.query(`UPDATE participants SET "idfriday" = $1 WHERE email = $2 `, [sextaId, email]);
+
+        }
         //const idMonday = await db.query(` SELECT * FROM participants WHERE email= $1`, [email]) //id do minicurso que a pessoa fara
         //se for o primeiro click só decrementa, se não, decrementa em um e incrementa no outro
         if (idNullability === null) {
