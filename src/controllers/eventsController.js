@@ -67,7 +67,7 @@ export async function getMyEventsMonday(req, res) {
 
     try {
         const mondayEvents = await db.query(`
-        SELECT course, "courseTime" FROM monday WHERE id = $1 ;
+        SELECT course, "timeCourse" FROM monday WHERE id = $1 ;
         `, [idMonday])
 
         res.send(mondayEvents.rows).status(200)
