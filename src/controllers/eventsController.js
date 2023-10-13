@@ -63,7 +63,7 @@ export async function cadastrarEventosSegunda(req, res) {
 
 
 export async function getMyEventsMonday(req, res) {
-    const idMonday = req.params.idDay;
+    const idMonday = parseInt(req.params.idDay);
 
     try {
         const mondayEvents = await db.query(`
