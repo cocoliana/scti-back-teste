@@ -1,5 +1,5 @@
 import { Router, json } from "express";
-import { cadastrarEventosQuarta, cadastrarEventosQuinta, cadastrarEventosSegunda, cadastrarEventosSexta, cadastrarEventosTerca, getEventsMonday, getEventsQuarta, getEventsQuinta, getEventsSexta, getEventsTerca, getMyEventsMonday, getMyEventsSexta, getMyEventsThursday, getMyEventsTuesday, getMyEventsWednesday, payment, setMonday, setQuarta, setQuinta, setSexta, setTerca } from "../controllers/eventsController.js";
+import { cadastrarEventosQuarta, cadastrarEventosQuinta, cadastrarEventosSegunda, cadastrarEventosSexta, cadastrarEventosTerca, getEventsMonday, getEventsQuarta, getEventsQuinta, getEventsSexta, getEventsTerca, getMyEventsMonday, getMyEventsSexta, getMyEventsThursday, getMyEventsTuesday, getMyEventsWednesday, payment, setMonday, setQuarta, setQuinta, setSexta, setTerca, tercaDados } from "../controllers/eventsController.js";
 import { eventsValidation } from "../middlewares/eventsMiddleware.js";
 import { tokenValidator } from "../middlewares/tokenValidator.js";
 
@@ -40,5 +40,9 @@ eventsRouter.post("/evento-cadastar-sexta", eventsValidation, cadastrarEventosSe
 eventsRouter.get("/events-get-sexta", getEventsSexta)
 eventsRouter.put("/events-alter-sexta", tokenValidator, setSexta)
 eventsRouter.get("/events-get-sexta-user/:idDay", getMyEventsSexta)
+
+
+//
+eventsRouter.get("/evento-minha-terca", tokenValidator, tercaDados)
 
 export default eventsRouter
