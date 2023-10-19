@@ -43,8 +43,8 @@ eventsRouter.get("/events-get-sexta-user/:idDay", getMyEventsSexta)
 
 
 //
-eventsRouter.get("/evento-minha-terca", tokenValidator, segundaDados)
-eventsRouter.get("/evento-minha-segunda", tokenValidator, tercaDados)
+eventsRouter.get("/evento-minha-seunda", tokenValidator, segundaDados)
+eventsRouter.get("/evento-minha-terca", tokenValidator, tercaDados)
 eventsRouter.get("/evento-minha-quarta", tokenValidator, quartaDados)
 eventsRouter.get("/evento-minha-quinta", tokenValidator, quintaDados)
 eventsRouter.get("/evento-minha-sexta", tokenValidator, sextaDados)
