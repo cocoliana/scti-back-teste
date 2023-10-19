@@ -609,3 +609,20 @@ export async function setSexta(req, res) {
     }
 
 }
+
+export async function tercaDados(req, res) {
+
+    const { email } = res.locals.user
+
+    try {
+        const terca = await db.query(`select name, course from participants p join tuesday t on p."idtuesday" = t.id where p.email = $1`, [email])
+        console.log(" terca info ", terca.rows)
+        res.status(200).send(terca.rows)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+
+    }
+
+
+}
