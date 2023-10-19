@@ -610,12 +610,80 @@ export async function setSexta(req, res) {
 
 }
 
+export async function segundaDados(req, res) {
+
+    const { email } = res.locals.user
+
+    try {
+        const terca = await db.query(`select name, course from participants p join monday t on p."idMonday" = t.id where p.email = $1`, [email])
+        console.log(" terca info ", terca.rows)
+        res.status(200).send(terca.rows)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+
+    }
+
+
+}
+
 export async function tercaDados(req, res) {
 
     const { email } = res.locals.user
 
     try {
         const terca = await db.query(`select name, course from participants p join tuesday t on p."idtuesday" = t.id where p.email = $1`, [email])
+        console.log(" terca info ", terca.rows)
+        res.status(200).send(terca.rows)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+
+    }
+
+
+}
+
+export async function quartaDados(req, res) {
+
+    const { email } = res.locals.user
+
+    try {
+        const terca = await db.query(`select name, course from participants p join wednesday t on p."idwednesday" = t.id where p.email = $1`, [email])
+        console.log(" terca info ", terca.rows)
+        res.status(200).send(terca.rows)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+
+    }
+
+
+}
+
+export async function quintaDados(req, res) {
+
+    const { email } = res.locals.user
+
+    try {
+        const terca = await db.query(`select name, course from participants p join thursday t on p."idthursday" = t.id where p.email = $1`, [email])
+        console.log(" terca info ", terca.rows)
+        res.status(200).send(terca.rows)
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+
+    }
+
+
+}
+
+export async function sextaDados(req, res) {
+
+    const { email } = res.locals.user
+
+    try {
+        const terca = await db.query(`select name, course from participants p join friday t on p."idfriday" = t.id where p.email = $1`, [email])
         console.log(" terca info ", terca.rows)
         res.status(200).send(terca.rows)
     } catch (error) {
